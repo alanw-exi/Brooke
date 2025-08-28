@@ -1,5 +1,0 @@
-0000000000000000000000000000000000000000 a83a230dbca2d5d8c5ba79b2df063d49864a5caf awood <awood@Alans-MBP> 1754583347 +0100	commit (initial): Initial working IOJSS application structure
-a83a230dbca2d5d8c5ba79b2df063d49864a5caf b63dd5cd4ada14fde133a73baf8db0fcf2690d49 awood <awood@Alans-MBP> 1754583648 +0100	commit: Phase 2 Progress: API Discovery Success
-b63dd5cd4ada14fde133a73baf8db0fcf2690d49 4840084ebc62fac06bbf24eaacb1b083e0409ad0 awood <awood@Alans-MBP> 1754583868 +0100	commit: 🎉 COMPLETE: Comprehensive IOJSS Application
-4840084ebc62fac06bbf24eaacb1b083e0409ad0 11742a3fbf7d2d9cfb183069687eb0f2ebbb7782 Folknology <folknology@gmail.com> 1756380634 +0100	commit: Removerd target stuff
-11742a3fbf7d2d9cfb183069687eb0f2ebbb7782 4840084ebc62fac06bbf24eaacb1b083e0409ad0 Folknology <folknology@gmail.com> 1756380874 +0100	reset: moving to HEAD~1
