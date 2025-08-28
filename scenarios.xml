@@ -1,0 +1,35 @@
+<config>
+<scenario name="basic_flow" />
+    <modules>
+        <module slot="1" type="DOP">
+            <device name="turbine_sim" protocol="pulses">
+                <signal mask="0x1" uri="stream_1/generator/pulses" />
+            </device>
+            <device name="density_freq_out" protocol="pulses">
+                <signal mask="0x2" uri="stream_1/generator/density_pulses" />
+            </device>
+        </module>
+        <module slot="2" type="AOP">
+            <device name="temperature_out" scale="4/20mA" range="[-20,150]">
+                <signal mask="0x1" uri="stream_1/generator/temperature" />
+            </device>
+            <device name="pressure_out" scale="4/20mA" range="[0,50]">
+                <signal mask="0x2" uri="stream_1/generator/presure" />
+            </device>
+        </module>
+        <module slot="3" type="RS485">
+            <device name="gc" protocol="MBS/RTU" address="0x01">
+                <packet ns="chroma_set_1">
+                    <register index="0x01" uri="stream_1/generator/CO2" />
+                    <register index="0x02" uri="stream_1/generator/N2" />
+                    <register index="0x03" uri="stream_1/generator/H2O" />
+                </packet>
+                <packet ns="chroma_set_2">
+                    <register index="0x04" uri="stream_1/generator/CH4" />
+                    <register index="0x05" uri="stream_1/generator/HSV" />
+                    <register index="0x06" uri="stream_1/generator/RD" />
+                </packet>
+            </device>
+        </module>
+    </modules>
+</config>

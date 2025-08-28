@@ -1,0 +1,12 @@
+<device name="gc" protocol="MBS">
+    <packet ns="chroma_set_1">
+        <register index="0x01" uri="station/chroma_set_2/CO2" />
+        <register index="0x02" uri="station/chroma/N2" />
+        <register index="0x03" uri="station/chroma/H2O" />
+    </packet>
+    <packet ns="chroma_set_2">
+        <register index="0x04" uri="station/chroma/CH4" />
+        <register index="0x05" uri="station/chroma/HSV" />
+        <register index="0x06" uri="station/chroma/RD" />
+    </packet>
+</device>

@@ -1,0 +1,10 @@
+<device name="ultrasonic" protocol="MBS">
+    <packet ns="env">
+        <register index="0x01" uri="./temperature" />
+        <register index="0x02" uri="./pressure" />
+        <register index="0x03" uri="./density" />
+    </packet>
+    <packet ns="chroma_set_2">
+        <register index="0x01" uri="./flow/" />
+    </packet>
+</device>

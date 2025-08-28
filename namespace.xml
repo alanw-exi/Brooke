@@ -1,0 +1,107 @@
+<config>
+    <station name="Duty" />
+    <modules>
+        <module slot="1" type="DOP">
+            <device name="valve" protocol="state">
+                <signal mask="0x1" uri="stream_1/current/valve" />
+            </device>
+            <device name="mech_meter" protocol="pulses">
+                <signal mask="0x1" uri="stream_1/current/flow_pulses" />
+            </device>
+        </module>
+        <module slot="2" type="DIP">
+            <device name="turbine" protocol="qaudrature">
+                <signal mask="0x3" uri="stream_1/current/flow/" />
+            </device>
+        </module>
+        <module slot="3" type="RS485">
+            <device name="environment" protocol="MBS/RTU" address="0x01">
+                <register index="0x01" uri="stream_1/current/temperature" />
+                <register index="0x02" uri="stream_1/current/pressure" />
+            </device>
+            <device name="ultrasonic" protocol="MBS/RTU" address="0x02">
+                <register index="0x01" uri="stream_1/current/flow/" />
+            </device>
+        </module>
+        <module slot="4" type="APL">
+            <device name="environment" protocol="MBS/TCP/IP" address="0x01">
+                <register index="0x01" uri="stream_1/current/temperature" />
+                <register index="0x02" uri="stream_1/current/pressure" />
+            </device>
+            <device name="ultrasonic" protocol="MBS/TCP/IP" address="0x02">
+                <register index="0x01" uri="stream_1/current/flow/" />
+            </device>
+        </module>
+        <module slot="5" type="AIP">
+            <device name="temperature" protocol="4/20mA">
+                <signal mask="0x1" uri="stream_1/current/temperature" />
+            </device>
+            <device name="pressure" protocol="0/20mA">
+                <signal mask="0x2" uri="stream_1/current/temperature" />
+            </device>
+            <device name="density" protocol="0/5V">
+                <signal mask="0x2">
+                    <uri>stream_1/current/aga8_density</uri>
+                    <uri>stream_1/current/density/</uri>
+                </signal>
+            </device>
+        </module>
+        <module slot="6" type="AOP">
+            <device name="temperature_relay" scale="4/20mA" range="[-20,150]">
+                <signal mask="0x1" uri="stream_1/current/temperature" />
+            </device>
+        </module>
+        <module slot="7" type="Hart">
+            <device name="environment" protocol="Hart" address="0x01">
+                <register index="0x01" uri="stream_1/current/temperature" />
+                <register index="0x02" uri="stream_1/current/pressure" />
+            </device>
+            <device name="ultrasonic" protocol="MBS/RTU" address="0x02">
+                <register index="0x01" uri="stream_1/current/flow/" />
+            </device>
+        </module>
+        <module slot="8" type="RS485">
+            <device uri="gc_mb_device" address="0x01" />
+            <device uri="us_flow_device" address="0x02" />
+        </module>
+    </modules>
+    <groups>
+        <group ns="stream_1" type="gas_stream">
+            <entries ns="current">
+                <entry ns="pressure" category="bar" value="0.0" />
+                <entry ns="temperature" category="celsius" value="0.0" />
+                <entry ns="density" category="kg/m3" value="0.0" />
+                <entry uri="aga8_density" />
+                <entry ns="density_readings" category="kg/m3" value="0.0">
+                    <entry ns="density_1" category="kg/m3" value="0" />
+                    <entry ns="density_2" category="kg/m3" value="0" />
+                    <entry ns="density_3" category="kg/m3" value="0" />
+                </entry>
+                <entry ns="flow">
+                    <entry ns="pulses" category="pulses" value="0" />
+                    <entry ns="missing_pulses" category="pulses" value="0" />
+                    <entry ns="added_pulses" category="pulses" value="0" />
+                </entry>
+                <entry ns="valve" category="boolean" value="0" />
+                <entry ns="flow_pulses" category="pulse" value="0">
+                    <param ns="min" />
+                    <param ns="max" />
+                </entry>
+            </entries>
+            <entries ns="accumulated">
+                <entry ns="pressure" category="bar" value="0.0" />
+                <entry ns="temperature" category="celsius" value="0.0" />
+                <entries ns="flow">
+                    <entry ns="pulses" category="pulses" value="0" />
+                    <entry ns="missing_pulses" category="pulses" value="0" />
+                    <entry ns="added_pulses" category="pulses" value="0" />
+                </entries>
+            </entries>
+            <entries ns="param">
+                <entry ns="energy" category="kcal" value="2.7" />
+                <entry ns="cycle" category="ms" value="1000" />
+                <entry ns="flow_rate" category="pulse/ltr" value="0.0" />
+            </entries>
+        </group>
+    </groups>
+</config>

@@ -1,0 +1,112 @@
+# This document describes the namespace configuration for the Brooklyn application.
+---
+Brooke:
+  Station:
+    name: Duty Station
+  modules:
+    - module:
+        slot: 1
+        type: DOP
+        valve: # Regular/Proving
+          mask: 0x1
+          generator: boolean
+          ns: stream_1/entries/valve
+    - module:
+        slot: 2
+        type: DIP
+        flow:
+          mask: 0x3
+          filter: quadrature
+          ns: stream_1/entries/flow
+    - module:
+        slot: 3
+        type: RS485
+        protocol: MBS/RTU
+        devices:
+          - device: # Regular
+              address: 0x01 # src
+              temperature:
+                register: 0x01
+                handler: register
+                ns: stream_1/entries/temperature
+              pressure:
+                register: 0x02
+                handler: register
+                ns: stream_1/entries/pressure
+              flow:
+          - device:
+              address: 0x02 # src
+              flow:
+                mask: 0x3
+                handler: register
+                ns: stream_1/entries/flow
+    - module:
+      slot: 4
+      type: APL
+      protocol: MBS/TCP/IP
+      devices:
+        - device:
+            address: 0x1
+            temperature:
+              register: 0x01
+              handler: register
+              ns: stream_1/entries/temperature
+            pressure:
+              register: 0x02
+              handler: register
+              ns: stream_1/entries/pressure
+        - device: # Proving
+            address: 0x02 # src
+            temperature:
+              register: 0x01
+              handler: register
+              ns: stream_1/entries/temperature
+            pressure:
+              register: 0x02
+              handler: register
+              ns: stream_1/entries/pressure
+  streams:
+    name: stream_1
+    type: gas
+    description: Stream 1 gas
+    entries:
+      pressure:
+        category: pascals
+        description: Pressure in the stream
+        value: 0.0
+      temperature:
+        category: celsius
+        description: Temperature of the stream
+        value: 24.5
+      flow:
+        category: ltrs/s
+        description: Turbine flow
+        value: 1000.0
+      valve: # prove/measure state
+        category: binary
+        description: Valve state
+        value: 0
+    totals:
+      pressure:
+        category: pascals
+        description: Total pressure in the stream
+        value: 0.0
+      temperature:
+        category: celsius
+        description: Total temperature of the stream
+        value: 24.5
+      flow:
+        category: ltrs/s
+        description: Total turbine flow
+        value: 1000.0
+      presets:
+        category: presets
+        description: Presets for the stream
+        Energy:
+          category: kcal
+          description: Energy density
+          value: 0.0
+        cycle:
+          category: ms
+          description: Cycle Time
+          value: 1000.0

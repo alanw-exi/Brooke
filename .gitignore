@@ -1,0 +1,5 @@
+bridge/target/.rustc_info.json
+target/
+bridge/target/*
+*.csv
+*.vcd
