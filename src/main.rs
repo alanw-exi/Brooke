@@ -3,6 +3,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use tokio::spawn;
 use tokio::time::{Duration, sleep};
 use tokio_serial::SerialStream;
+use log::{info, error, debug};
 
 use bridge::ioevent::IoEvent;
 use host::output_feeder::OutputFeeder;
@@ -16,6 +17,8 @@ const SAMPLE_CLOCK_PERIOD_NS: f64 = 1_000_000_000.0 / 120_000_000.0;
 
 #[tokio::main]
 pub async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    env_logger::init();
+    
     let ser_port: SerialStream = serial_host::init().await;
 
     // Initialize the EntryJournal
@@ -27,7 +30,7 @@ pub async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut feeder = OutputFeeder::new(event_sender);
     let mut _csv_events: Vec<IoEvent> = feeder.feed_from_csv().await;
 
-    println!("\n ---Begin test---\n");
+    info!("Begin test");
 
     // Capture the start time of event processing
     let capture_start_time = SystemTime::now()
@@ -39,7 +42,7 @@ pub async fn main() -> Result<(), Box<dyn std::error::Error>> {
         loop {
             let mut input_events: Vec<IoEvent> = Vec::new();
             event_receiver.recv_many(&mut input_events, 2048).await;
-            println!("Events len {}", input_events.len());
+            debug!("Received {} events", input_events.len());
             for event in input_events.drain(..) {
                 // Convert IoEvent to Telemetry and store in EntryJournal
                 match event {
@@ -58,33 +61,33 @@ pub async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         // Create and insert telemetry entry
                         let telemetry = Telemetry::new(timestamp, state, source, register);
                         match entry_journal.insert_telemetry(&telemetry).await {
-                            Ok(_) => println!("Stored telemetry: time={}, state={}, source={}, register={} (sample_count={})", 
+                            Ok(_) => debug!("Stored telemetry: time={}, state={}, source={}, register={} (sample_count={})", 
                                             timestamp, state, source, register, sample_count),
-                            Err(e) => println!("Telemetry insert error: {e}"),
+                            Err(e) => error!("Telemetry insert error: {e}"),
                         }
                     },
                     _ => {
-                        println!("Skipped non-digital event: {:?}", event);
+                        debug!("Skipped non-digital event: {:?}", event);
                     }
                 }
             }
-            println!("Recorded received events as telemetry");
+            debug!("Recorded received events as telemetry");
         }
     });
     sleep(Duration::from_secs(10)).await;
     
     // Verify stored telemetry entries by creating a new journal connection
-    println!("\n---Verifying stored telemetry---\n");
+    info!("Verifying stored telemetry");
     let (_verify_conn, verify_journal) = EntryJournal::initialize("telemetry.db").await?;
     let telemetry_entries = verify_journal.get_telemetry().await?;
-    println!("Found {} telemetry entries in database:", telemetry_entries.len());
+    info!("Found {} telemetry entries in database", telemetry_entries.len());
     
     for (idx, entry) in telemetry_entries.iter().enumerate() {
         if idx < 5 {
-            println!("Entry {}: time={}, state={}, source={}, register={}", 
+            info!("Entry {}: time={}, state={}, source={}, register={}", 
                     idx + 1, entry.time, entry.state, entry.source, entry.register);
         } else if idx == 5 {
-            println!("... and {} more entries", telemetry_entries.len() - 5);
+            info!("... and {} more entries", telemetry_entries.len() - 5);
             break;
         }
     }
