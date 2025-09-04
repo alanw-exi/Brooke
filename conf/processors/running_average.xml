@@ -1,0 +1,9 @@
+<process ns="running_average">
+    <entry ns="temperature" category="4-20ma" value="0" />
+    <params>
+        <param calibration="0.0015" />
+        <param min="-15" alarm="Min Value" />
+        <param max="120" alarm="Max Value" />
+    </params>
+    <entry ns="Average_temperature" category="celsius" value="0" />
+</process>

@@ -1,8 +1,8 @@
-<group ns="calculation/aga8/density">
+<calculation ns="calculation/aga8/density">
     <entry ns="input" category="kg/m3">
         <entry ns="density_1" category="kg/m3" value="0" />
         <entry ns="density_2" category="kg/m3" value="0" />
         <entry ns="density_3" category="kg/m3" value="0" />
     </entry>
     <entry ns="output" category="kg/m3" value="0" />
-</group>
+</calculation>

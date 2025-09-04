@@ -1,0 +1,9 @@
+<process ns="flow_pulses">
+    <params>
+        <param min="20" alarm="Min Value" />
+        <param max="120" alarm="Max Value" />
+    </params>
+    <entry ns="pulses" category="pulses" value="0" />
+    <entry ns="missing_pulses" category="pulses" value="0" />
+    <entry ns="added_pulses" category="pulses" value="0" />
+</process>

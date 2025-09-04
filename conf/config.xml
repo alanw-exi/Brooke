@@ -1,0 +1,57 @@
+<configuration>
+    <station name="Duty" />
+    <modules>
+    <module slot="1" type="DOP">
+        <device name="valve" protocol="state">
+            <signal mask="0x1" uri="stream_1/current/valve" />
+        </device>
+        <device name="mech_meter" protocol="pulses">
+            <signal mask="0x1" uri="stream_1/current/flow_pulses" />
+        </device>
+    </module>
+        <module slot="2" type="DIP">
+            <device uri="devices/us_flow" />
+        </module>
+        <module slot="3" type="Serial">
+            <device uri="devices/us_flow" address="0x01" />
+        </module>
+        <module slot="4" type="APL">
+            <device uri="devices/chromatagraph" address="10.0.0.2" />
+        </module>
+        <module slot="4" type="AIP">
+            <device name="temperature" protocol="4/20mA">
+                <signal mask="0x1" uri="stream_1/current/temperature" />
+            </device>
+            <device name="pressure" protocol="0/20mA">
+                <signal mask="0x2" uri="stream_1/current/temperature" />
+            </device>
+            <device name="density" protocol="0/5V">
+                <signal mask="0x2">
+                    <uri>stream_1/current/aga8_density</uri>
+                    <uri>stream_1/current/density/</uri>
+                </signal>
+            </device>
+        </module>
+    </modules>
+    <streams>
+        <stream name="gas_stream_1" type="gas">
+            <active>
+                <entry ns="pressure" category="bar" value="0.0" />
+                <entry ns="temperature" category="celsius" value="0.0" />
+                <entry calculation="aga8/density" />
+                <entry process="flow_pulses_pr" ns="flow" value="0" />
+                <entry ns="valve" category="boolean" value="0" />
+                <entry ns="flow_pulses_pr" category="pulse_count" value="0">
+                    <param ns="min" />
+                    <param ns="max" />
+                </entry>
+            </active>
+            <total>
+                <entry accumulator="flow_pulses" ns="flow/" value="0" />
+            </total>
+            <aga8_density>
+                <uri>calculation/aga8/density/</uri>
+            </aga8_density>
+        </stream>
+    </streams>
+</configuration>

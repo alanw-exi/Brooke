@@ -401,7 +401,7 @@ dependencies = [
  "object 0.37.2",
  "proc-macro2",
  "procfs",
- "quick-xml",
+ "quick-xml 0.37.5",
  "quote",
  "regex",
  "rustc-demangle",
@@ -1692,6 +1692,7 @@ dependencies = [
  "host",
  "iojss",
  "log",
+ "quick-xml 0.38.3",
  "serde",
  "serde_json",
  "tempfile",
@@ -2524,6 +2525,15 @@ name = "quick-xml"
 version = "0.37.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "331e97a1af0bf59823e6eadffe373d7b27f485be8748f71471c662c1f269b7fb"
+dependencies = [
+ "memchr",
+]
+
+[[package]]
+name = "quick-xml"
+version = "0.38.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "42a232e7487fc2ef313d96dde7948e7a3c05101870d8985e4fd8d26aedd27b89"
 dependencies = [
  "memchr",
 ]
